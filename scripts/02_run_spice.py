@@ -1,86 +1,89 @@
-import re, subprocess, sys, time
-from pathlib import Path
-import pandas as pd
-from common import CASES, MODEL_FILE, L_MIN, L_DIFF, NGSPICE_BIN, PROJECT_ROOT
-
-HEADER = """\
-* Auto-generated single-transistor PVT sweep -- case: {case}
-* AD/AS = W x Ldiff (junction area), per TA guidance -- re-altered every sample below.
-.INCLUDE {model_file}
-.OPTIONS GMIN=1e-18 ABSTOL=1e-18 RELTOL=1e-6 VNTOL=1e-9
-
-Mn drain gate source body {devmodel} W={lmin:.6g} L={lmin:.6g} AD=0 AS=0
-Vd drain 0 0
-Vg gate  0 0
-Vs source 0 0
-Vb body  0 0
-
-.control
 """
+02_run_spice.py
+------------------
+Simulates every sampled input row of one case (data/<CASE>_inputs.csv, from
+01_generate_inputs.py) in ngspice and writes data/<CASE>_dataset.csv with the
+16 columns required by Deliverable 1:
+    vdd,temp,w,vd,vs,vg,vb,vth0,toxe,ndep,u0,xj,id,ig,is,ib
 
+Samples are simulated in chunks of CHUNK rows, one ngspice run per chunk
+(ngspice slows down superlinearly when one run accumulates many thousands of
+results: 1,000 samples take ~1 s, 10,000 in one run took minutes). Each
+netlist loads the model card once and loops over its samples in a .control block, setting each sample's process
+parameters (altermod), width and junction areas (alter), terminal voltages
+and temperature, then runs .op and prints the four terminal currents.
+
+IMPORTANT (bug fixed here): ngspice's altermod applies ONLY THE FIRST
+parameter when several are given on one line, with either syntax
+("altermod @nmos[vth0]=.. @nmos[toxe]=.." or "altermod nmos vth0=.. toxe=..").
+Each process parameter therefore gets its OWN altermod line. Verified: five
+separate lines give currents identical to editing all five values directly
+into the model card.
+
+Usage:   python3 02_run_spice.py NMOS_ON
+"""
+import re
+import subprocess
+import sys
+import time
+
+import pandas as pd
+
+from common import L_DIFF, L_MIN, MODEL_FILE, NGSPICE_BIN, PROJECT_ROOT
+
+CASE_MODEL = {"NMOS_ON": "nmos", "NMOS_OFF": "nmos", "PMOS_ON": "pmos", "PMOS_OFF": "pmos"}
+PARAMS = ["vth0", "toxe", "ndep", "u0", "xj"]
 PRINT_RE = re.compile(
     r"i\(vd\)\s*=\s*([\-\d\.eE\+]+)\s*\n"
     r"i\(vg\)\s*=\s*([\-\d\.eE\+]+)\s*\n"
     r"i\(vs\)\s*=\s*([\-\d\.eE\+]+)\s*\n"
     r"i\(vb\)\s*=\s*([\-\d\.eE\+]+)"
 )
+CHUNK = 1000
+COLUMNS = ["vdd", "temp", "w", "vd", "vs", "vg", "vb", "vth0", "toxe", "ndep", "u0", "xj", "id", "ig", "is", "ib"]
 
-def build_netlist(case_name, df, model_file):
-    case = CASES[case_name]
-    lines = [HEADER.format(case=case_name, model_file=model_file, devmodel=case["model"], lmin=L_MIN)]
-    mdl = case["model"]
-    for row in df.itertuples(index=False):
-        ad_as = row.w * L_DIFF
-        lines.append(f"altermod @{mdl}[vth0]={row.vth0:.8g} @{mdl}[toxe]={row.toxe:.8g} "
-                     f"@{mdl}[ndep]={row.ndep:.8g} @{mdl}[u0]={row.u0:.8g} @{mdl}[xj]={row.xj:.8g}")
-        lines.append(f"alter @mn[w] = {row.w:.8g}")
-        lines.append(f"alter @mn[ad] = {ad_as:.8g}")
-        lines.append(f"alter @mn[as] = {ad_as:.8g}")
-        lines.append(f"alter Vd = {row.vd:.8g}")
-        lines.append(f"alter Vg = {row.vg:.8g}")
-        lines.append(f"alter Vs = {row.vs:.8g}")
-        lines.append(f"alter Vb = {row.vb:.8g}")
-        lines.append(f"option temp = {row.temp:.8g}")
-        lines.append("op")
-        lines.append("print i(vd) i(vg) i(vs) i(vb)")
+
+def build_netlist(case, df):
+    mdl = CASE_MODEL[case]
+    ad0 = L_MIN * L_DIFF
+    lines = [f"* Single-transistor PVT sweep -- case {case}", f".INCLUDE {MODEL_FILE}",
+             ".OPTIONS GMIN=1e-18 ABSTOL=1e-18 RELTOL=1e-6 VNTOL=1e-9", "",
+             f"Mn drain gate source body {mdl} W={L_MIN:.6g} L={L_MIN:.6g} AD={ad0:.6g} AS={ad0:.6g}",
+             "Vd drain 0 0", "Vg gate 0 0", "Vs source 0 0", "Vb body 0 0", "", ".control"]
+    for r in df.itertuples(index=False):
+        for p in PARAMS:                                   # one altermod line per parameter
+            lines.append(f"altermod @{mdl}[{p}]={getattr(r, p):.8g}")
+        lines += [f"alter @mn[w] = {r.w:.8g}", f"alter @mn[ad] = {r.w * L_DIFF:.8g}", f"alter @mn[as] = {r.w * L_DIFF:.8g}",
+                  f"alter Vd = {r.vd:.8g}", f"alter Vg = {r.vg:.8g}", f"alter Vs = {r.vs:.8g}", f"alter Vb = {r.vb:.8g}",
+                  f"option temp = {r.temp:.8g}", "op", "print i(vd) i(vg) i(vs) i(vb)"]
     lines += [".endc", ".end"]
     return "\n".join(lines)
 
-def run_case(case_name, model_file=MODEL_FILE, in_csv_name=None, out_csv_name=None, net_suffix=None):
-    """in_csv_name/out_csv_name: override the default '<case>_inputs.csv' /
-    '<case>_dataset.csv' filenames -- added to reuse this exact, already-verified
-    netlist/parsing logic for the targeted augmentation samples (Option 1,
-    accuracy improvement) without duplicating it. Defaults are unchanged, so
-    every existing call site behaves exactly as before."""
-    in_csv = PROJECT_ROOT / "data" / (in_csv_name or f"{case_name}_inputs.csv")
-    df = pd.read_csv(in_csv)
-    netlist = build_netlist(case_name, df, model_file)
-    net_path = PROJECT_ROOT / "data" / f"_generated_{case_name}{net_suffix or ''}.net"
-    net_path.write_text(netlist)
 
+def run_case(case, in_csv_name=None, out_csv_name=None):
+    df = pd.read_csv(PROJECT_ROOT / "data" / (in_csv_name or f"{case}_inputs.csv"))
+    net = PROJECT_ROOT / "data" / f"_generated_{case}.net"
     t0 = time.time()
-    result = subprocess.run([NGSPICE_BIN, "-b", str(net_path)], capture_output=True, text=True)
-    elapsed = time.time() - t0
-    if result.returncode != 0:
-        raise RuntimeError(f"ngspice failed:\n{result.stderr[-3000:]}")
+    m = []
+    for start in range(0, len(df), CHUNK):
+        chunk = df.iloc[start:start + CHUNK]
+        net.write_text(build_netlist(case, chunk))
+        res = subprocess.run([NGSPICE_BIN, "-b", str(net)], capture_output=True, text=True)
+        if res.returncode != 0:
+            raise RuntimeError(f"ngspice failed (rows {start}+):\n{res.stderr[-3000:]}")
+        got = PRINT_RE.findall(res.stdout)
+        if len(got) != len(chunk):
+            raise RuntimeError(f"rows {start}+: parsed {len(got)} of {len(chunk)} -- check convergence:\n{res.stderr[-2000:]}")
+        m += got
+    net.unlink()
+    out = pd.concat([df.reset_index(drop=True), pd.DataFrame(m, columns=["id", "ig", "is", "ib"]).astype(float)], axis=1)[COLUMNS]
+    path = PROJECT_ROOT / "data" / (out_csv_name or f"{case}_dataset.csv")
+    out.to_csv(path, index=False)
+    kcl = (out["id"] + out["ig"] + out["is"] + out["ib"]).abs()
+    print(f"[{case}] {len(out)} rows in {time.time() - t0:.1f}s; KCL residual median {kcl.median():.3e} A "
+          f"(median |Id| {out['id'].abs().median():.3e} A); wrote {path}")
+    return out
 
-    matches = PRINT_RE.findall(result.stdout)
-    if len(matches) != len(df):
-        raise RuntimeError(f"Parsed {len(matches)} but expected {len(df)} -- check convergence in stderr:\n{result.stderr[-2000:]}")
-
-    currents = pd.DataFrame(matches, columns=["id", "ig", "is", "ib"]).astype(float)
-    out_df = pd.concat([df.reset_index(drop=True), currents], axis=1)
-    out_df = out_df[["vdd","temp","w","vd","vs","vg","vb","vth0","toxe","ndep","u0","xj","id","ig","is","ib"]]
-
-    out_path = PROJECT_ROOT / "data" / (out_csv_name or f"{case_name}_dataset.csv")
-    out_df.to_csv(out_path, index=False)
-
-    kcl = (out_df["id"]+out_df["ig"]+out_df["is"]+out_df["ib"]).abs()
-    print(f"[{case_name}] {len(out_df)} rows in {elapsed:.1f}s")
-    print(f"[{case_name}] KCL residual median={kcl.median():.3e} A (should be near-zero vs mean|Id|={out_df['id'].abs().mean():.3e} A)")
-    print(f"[{case_name}] Wrote {out_path}")
-    return out_df
 
 if __name__ == "__main__":
-    case_name = sys.argv[1] if len(sys.argv) > 1 else "NMOS_ON"
-    run_case(case_name)
+    run_case(sys.argv[1] if len(sys.argv) > 1 else "NMOS_ON")

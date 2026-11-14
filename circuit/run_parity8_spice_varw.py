@@ -54,10 +54,9 @@ def netlist_for_corner(r):
     lines.append("Vdd_src vdd 0 0")
     lines += [f"V{node} {node} 0 0" for node in INPUT_NODES]
     lines += ["", ".control",
-              f"altermod @nmos[vth0]={r.nmos_vth0:.8g} @nmos[toxe]={r.nmos_toxe:.8g} @nmos[ndep]={r.nmos_ndep:.8g} "
-              f"@nmos[u0]={r.nmos_u0:.8g} @nmos[xj]={r.nmos_xj:.8g}",
-              f"altermod @pmos[vth0]={r.pmos_vth0:.8g} @pmos[toxe]={r.pmos_toxe:.8g} @pmos[ndep]={r.pmos_ndep:.8g} "
-              f"@pmos[u0]={r.pmos_u0:.8g} @pmos[xj]={r.pmos_xj:.8g}",
+              # one altermod line PER PARAMETER: ngspice applies only the first parameter of a multi-parameter line
+              *[f"altermod @{dev}[{p}]={getattr(r, f'{dev}_{p}'):.8g}" for dev in ["nmos", "pmos"]
+                for p in ["vth0", "toxe", "ndep", "u0", "xj"]],
               f"alter Vdd_src = {r.vdd:.8g}", f"option temp = {r.temp:.8g}"]
     for pat in PATTERNS:
         lines += [f"alter V{node} = {r.vdd * bit:.8g}" for node, bit in zip(INPUT_NODES, pat)]

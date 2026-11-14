@@ -89,10 +89,9 @@ def build_netlist(gate, corners):
     pv = " ".join(f"v({n})" for n in g["nodes"]) + " i(vdd_src) " + " ".join(f"i(v{i})" for i in g["inputs"])
     for r in corners.itertuples(index=False):
         for _, bits in input_states(gate):
-            lines.append("altermod @nmos[vth0]={:.8g} @nmos[toxe]={:.8g} @nmos[ndep]={:.8g} @nmos[u0]={:.8g} @nmos[xj]={:.8g}"
-                         .format(r.nmos_vth0, r.nmos_toxe, r.nmos_ndep, r.nmos_u0, r.nmos_xj))
-            lines.append("altermod @pmos[vth0]={:.8g} @pmos[toxe]={:.8g} @pmos[ndep]={:.8g} @pmos[u0]={:.8g} @pmos[xj]={:.8g}"
-                         .format(r.pmos_vth0, r.pmos_toxe, r.pmos_ndep, r.pmos_u0, r.pmos_xj))
+            # one altermod line PER PARAMETER: ngspice applies only the first parameter of a multi-parameter line
+            for dev in ["nmos", "pmos"]:
+                lines += [f"altermod @{dev}[{p}]={getattr(r, f'{dev}_{p}'):.8g}" for p in PARAMS]
             for name, typ, *_ in g["devices"]:
                 w = r.wn if typ == "nmos" else r.wp
                 lines += [f"alter @{name}[w] = {w:.8g}", f"alter @{name}[ad] = {w * L_DIFF:.8g}",
