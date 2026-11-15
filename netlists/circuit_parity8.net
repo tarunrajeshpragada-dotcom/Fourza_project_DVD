@@ -1,0 +1,154 @@
+* 8-bit parity checker (28 NAND2, 112 transistors), corner 0.
+* The production run (circuit/run_parity8_spice_varw.py) repeats the
+* alter/op/print block for all 256 input vectors; topology is identical.
+* 8-bit parity checker, corner 0: wn=4.665e-08 wp=3.165e-08
+.INCLUDE /home/tarun/dvd_project/models/16nm_HP.pm
+.OPTIONS GMIN=1e-18 ABSTOL=1e-18 RELTOL=1e-6 VNTOL=1e-9
+
+ML1_0_g1_1 L1_0_c a0 L1_0_g1_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_0_g1_2 L1_0_g1_x a1 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_0_g1_3 L1_0_c a0 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_0_g1_4 L1_0_c a1 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_0_g2_1 L1_0_d a0 L1_0_g2_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_0_g2_2 L1_0_g2_x L1_0_c 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_0_g2_3 L1_0_d a0 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_0_g2_4 L1_0_d L1_0_c vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_0_g3_1 L1_0_e a1 L1_0_g3_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_0_g3_2 L1_0_g3_x L1_0_c 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_0_g3_3 L1_0_e a1 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_0_g3_4 L1_0_e L1_0_c vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_0_g4_1 l1_0 L1_0_d L1_0_g4_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_0_g4_2 L1_0_g4_x L1_0_e 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_0_g4_3 l1_0 L1_0_d vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_0_g4_4 l1_0 L1_0_e vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_1_g1_1 L1_1_c a2 L1_1_g1_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_1_g1_2 L1_1_g1_x a3 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_1_g1_3 L1_1_c a2 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_1_g1_4 L1_1_c a3 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_1_g2_1 L1_1_d a2 L1_1_g2_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_1_g2_2 L1_1_g2_x L1_1_c 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_1_g2_3 L1_1_d a2 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_1_g2_4 L1_1_d L1_1_c vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_1_g3_1 L1_1_e a3 L1_1_g3_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_1_g3_2 L1_1_g3_x L1_1_c 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_1_g3_3 L1_1_e a3 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_1_g3_4 L1_1_e L1_1_c vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_1_g4_1 l1_1 L1_1_d L1_1_g4_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_1_g4_2 L1_1_g4_x L1_1_e 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_1_g4_3 l1_1 L1_1_d vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_1_g4_4 l1_1 L1_1_e vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_2_g1_1 L1_2_c a4 L1_2_g1_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_2_g1_2 L1_2_g1_x a5 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_2_g1_3 L1_2_c a4 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_2_g1_4 L1_2_c a5 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_2_g2_1 L1_2_d a4 L1_2_g2_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_2_g2_2 L1_2_g2_x L1_2_c 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_2_g2_3 L1_2_d a4 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_2_g2_4 L1_2_d L1_2_c vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_2_g3_1 L1_2_e a5 L1_2_g3_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_2_g3_2 L1_2_g3_x L1_2_c 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_2_g3_3 L1_2_e a5 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_2_g3_4 L1_2_e L1_2_c vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_2_g4_1 l1_2 L1_2_d L1_2_g4_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_2_g4_2 L1_2_g4_x L1_2_e 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_2_g4_3 l1_2 L1_2_d vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_2_g4_4 l1_2 L1_2_e vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_3_g1_1 L1_3_c a6 L1_3_g1_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_3_g1_2 L1_3_g1_x a7 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_3_g1_3 L1_3_c a6 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_3_g1_4 L1_3_c a7 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_3_g2_1 L1_3_d a6 L1_3_g2_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_3_g2_2 L1_3_g2_x L1_3_c 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_3_g2_3 L1_3_d a6 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_3_g2_4 L1_3_d L1_3_c vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_3_g3_1 L1_3_e a7 L1_3_g3_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_3_g3_2 L1_3_g3_x L1_3_c 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_3_g3_3 L1_3_e a7 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_3_g3_4 L1_3_e L1_3_c vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_3_g4_1 l1_3 L1_3_d L1_3_g4_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_3_g4_2 L1_3_g4_x L1_3_e 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML1_3_g4_3 l1_3 L1_3_d vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML1_3_g4_4 l1_3 L1_3_e vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML2_0_g1_1 L2_0_c l1_0 L2_0_g1_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML2_0_g1_2 L2_0_g1_x l1_1 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML2_0_g1_3 L2_0_c l1_0 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML2_0_g1_4 L2_0_c l1_1 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML2_0_g2_1 L2_0_d l1_0 L2_0_g2_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML2_0_g2_2 L2_0_g2_x L2_0_c 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML2_0_g2_3 L2_0_d l1_0 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML2_0_g2_4 L2_0_d L2_0_c vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML2_0_g3_1 L2_0_e l1_1 L2_0_g3_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML2_0_g3_2 L2_0_g3_x L2_0_c 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML2_0_g3_3 L2_0_e l1_1 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML2_0_g3_4 L2_0_e L2_0_c vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML2_0_g4_1 l2_0 L2_0_d L2_0_g4_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML2_0_g4_2 L2_0_g4_x L2_0_e 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML2_0_g4_3 l2_0 L2_0_d vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML2_0_g4_4 l2_0 L2_0_e vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML2_1_g1_1 L2_1_c l1_2 L2_1_g1_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML2_1_g1_2 L2_1_g1_x l1_3 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML2_1_g1_3 L2_1_c l1_2 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML2_1_g1_4 L2_1_c l1_3 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML2_1_g2_1 L2_1_d l1_2 L2_1_g2_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML2_1_g2_2 L2_1_g2_x L2_1_c 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML2_1_g2_3 L2_1_d l1_2 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML2_1_g2_4 L2_1_d L2_1_c vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML2_1_g3_1 L2_1_e l1_3 L2_1_g3_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML2_1_g3_2 L2_1_g3_x L2_1_c 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML2_1_g3_3 L2_1_e l1_3 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML2_1_g3_4 L2_1_e L2_1_c vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML2_1_g4_1 l2_1 L2_1_d L2_1_g4_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML2_1_g4_2 L2_1_g4_x L2_1_e 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML2_1_g4_3 l2_1 L2_1_d vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML2_1_g4_4 l2_1 L2_1_e vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML3_0_g1_1 L3_0_c l2_0 L3_0_g1_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML3_0_g1_2 L3_0_g1_x l2_1 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML3_0_g1_3 L3_0_c l2_0 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML3_0_g1_4 L3_0_c l2_1 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML3_0_g2_1 L3_0_d l2_0 L3_0_g2_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML3_0_g2_2 L3_0_g2_x L3_0_c 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML3_0_g2_3 L3_0_d l2_0 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML3_0_g2_4 L3_0_d L3_0_c vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML3_0_g3_1 L3_0_e l2_1 L3_0_g3_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML3_0_g3_2 L3_0_g3_x L3_0_c 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML3_0_g3_3 L3_0_e l2_1 vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML3_0_g3_4 L3_0_e L3_0_c vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML3_0_g4_1 parity_out L3_0_d L3_0_g4_x 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML3_0_g4_2 L3_0_g4_x L3_0_e 0 0 nmos W=4.66489e-08 L=1.6e-08 AD=1.49276e-15 AS=1.49276e-15
+ML3_0_g4_3 parity_out L3_0_d vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+ML3_0_g4_4 parity_out L3_0_e vdd vdd pmos W=3.16541e-08 L=1.6e-08 AD=1.01293e-15 AS=1.01293e-15
+Vdd_src vdd 0 0
+Va0 a0 0 0
+Va1 a1 0 0
+Va2 a2 0 0
+Va3 a3 0 0
+Va4 a4 0 0
+Va5 a5 0 0
+Va6 a6 0 0
+Va7 a7 0 0
+
+.control
+altermod @nmos[vth0]=0.43745504
+altermod @nmos[toxe]=1.0334748e-09
+altermod @nmos[ndep]=7.5571543e+18
+altermod @nmos[u0]=0.030622336
+altermod @nmos[xj]=4.6114221e-09
+altermod @pmos[vth0]=-0.4428331
+altermod @pmos[toxe]=1.060752e-09
+altermod @pmos[ndep]=5.8663437e+18
+altermod @pmos[u0]=0.0060668518
+altermod @pmos[xj]=4.5528648e-09
+alter Vdd_src = 0.9714817
+option temp = -37.539367
+alter Va0 = 0
+alter Va1 = 0
+alter Va2 = 0
+alter Va3 = 0
+alter Va4 = 0
+alter Va5 = 0
+alter Va6 = 0
+alter Va7 = 0
+op
+print v(parity_out) i(vdd_src) i(va0) i(va1) i(va2) i(va3) i(va4) i(va5) i(va6) i(va7)
+.endc
+.end

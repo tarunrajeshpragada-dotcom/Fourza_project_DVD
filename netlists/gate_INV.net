@@ -1,0 +1,54 @@
+* INV gate, widths varied per corner
+.INCLUDE /home/tarun/dvd_project/models/16nm_HP.pm
+.OPTIONS GMIN=1e-18 ABSTOL=1e-18 RELTOL=1e-6 VNTOL=1e-9
+
+mp out a vdd vdd pmos W=1.6e-08 L=1.6e-08 AD=5.12e-16 AS=5.12e-16
+mn out a 0 0 nmos W=1.6e-08 L=1.6e-08 AD=5.12e-16 AS=5.12e-16
+Vdd_src vdd 0 0
+Va a 0 0
+
+.control
+altermod @nmos[vth0]=0.43745504
+altermod @nmos[toxe]=1.0334748e-09
+altermod @nmos[ndep]=7.5571543e+18
+altermod @nmos[u0]=0.030622336
+altermod @nmos[xj]=4.6114221e-09
+altermod @pmos[vth0]=-0.4428331
+altermod @pmos[toxe]=1.060752e-09
+altermod @pmos[ndep]=5.8663437e+18
+altermod @pmos[u0]=0.0060668518
+altermod @pmos[xj]=4.5528648e-09
+alter @mp[w] = 3.1654062e-08
+alter @mp[ad] = 1.01293e-15
+alter @mp[as] = 1.01293e-15
+alter @mn[w] = 4.6648895e-08
+alter @mn[ad] = 1.4927646e-15
+alter @mn[as] = 1.4927646e-15
+alter Vdd_src = 0.9714817
+alter Va = 0
+option temp = -37.539367
+op
+print v(out) i(vdd_src) i(va)
+altermod @nmos[vth0]=0.43745504
+altermod @nmos[toxe]=1.0334748e-09
+altermod @nmos[ndep]=7.5571543e+18
+altermod @nmos[u0]=0.030622336
+altermod @nmos[xj]=4.6114221e-09
+altermod @pmos[vth0]=-0.4428331
+altermod @pmos[toxe]=1.060752e-09
+altermod @pmos[ndep]=5.8663437e+18
+altermod @pmos[u0]=0.0060668518
+altermod @pmos[xj]=4.5528648e-09
+alter @mp[w] = 3.1654062e-08
+alter @mp[ad] = 1.01293e-15
+alter @mp[as] = 1.01293e-15
+alter @mn[w] = 4.6648895e-08
+alter @mn[ad] = 1.4927646e-15
+alter @mn[as] = 1.4927646e-15
+alter Vdd_src = 0.9714817
+alter Va = 0.9714817
+option temp = -37.539367
+op
+print v(out) i(vdd_src) i(va)
+.endc
+.end

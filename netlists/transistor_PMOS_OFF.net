@@ -1,0 +1,28 @@
+* Single-transistor PVT sweep -- case PMOS_OFF
+.INCLUDE /home/tarun/dvd_project/models/16nm_HP.pm
+.OPTIONS GMIN=1e-18 ABSTOL=1e-18 RELTOL=1e-6 VNTOL=1e-9
+
+Mn drain gate source body pmos W=1.6e-08 L=1.6e-08 AD=5.12e-16 AS=5.12e-16
+Vd drain 0 0
+Vg gate 0 0
+Vs source 0 0
+Vb body 0 0
+
+.control
+altermod @pmos[vth0]=-0.39824865
+altermod @pmos[toxe]=1.0657203e-09
+altermod @pmos[ndep]=5.1983949e+18
+altermod @pmos[u0]=0.0061775197
+altermod @pmos[xj]=5.0738391e-09
+alter @mn[w] = 5.4878053e-08
+alter @mn[ad] = 1.7560977e-15
+alter @mn[as] = 1.7560977e-15
+alter Vd = 0.76021797
+alter Vg = 1.0547912
+alter Vs = 0.78136059
+alter Vb = 1.0547912
+option temp = 8.0842597
+op
+print i(vd) i(vg) i(vs) i(vb)
+.endc
+.end

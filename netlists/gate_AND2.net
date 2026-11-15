@@ -1,0 +1,153 @@
+* AND2 gate, widths varied per corner
+.INCLUDE /home/tarun/dvd_project/models/16nm_HP.pm
+.OPTIONS GMIN=1e-18 ABSTOL=1e-18 RELTOL=1e-6 VNTOL=1e-9
+
+m1 n1 a x 0 nmos W=1.6e-08 L=1.6e-08 AD=5.12e-16 AS=5.12e-16
+m2 x b 0 0 nmos W=1.6e-08 L=1.6e-08 AD=5.12e-16 AS=5.12e-16
+m3 n1 a vdd vdd pmos W=1.6e-08 L=1.6e-08 AD=5.12e-16 AS=5.12e-16
+m4 n1 b vdd vdd pmos W=1.6e-08 L=1.6e-08 AD=5.12e-16 AS=5.12e-16
+m5 out n1 vdd vdd pmos W=1.6e-08 L=1.6e-08 AD=5.12e-16 AS=5.12e-16
+m6 out n1 0 0 nmos W=1.6e-08 L=1.6e-08 AD=5.12e-16 AS=5.12e-16
+Vdd_src vdd 0 0
+Va a 0 0
+Vb b 0 0
+
+.control
+altermod @nmos[vth0]=0.43745504
+altermod @nmos[toxe]=1.0334748e-09
+altermod @nmos[ndep]=7.5571543e+18
+altermod @nmos[u0]=0.030622336
+altermod @nmos[xj]=4.6114221e-09
+altermod @pmos[vth0]=-0.4428331
+altermod @pmos[toxe]=1.060752e-09
+altermod @pmos[ndep]=5.8663437e+18
+altermod @pmos[u0]=0.0060668518
+altermod @pmos[xj]=4.5528648e-09
+alter @m1[w] = 4.6648895e-08
+alter @m1[ad] = 1.4927646e-15
+alter @m1[as] = 1.4927646e-15
+alter @m2[w] = 4.6648895e-08
+alter @m2[ad] = 1.4927646e-15
+alter @m2[as] = 1.4927646e-15
+alter @m3[w] = 3.1654062e-08
+alter @m3[ad] = 1.01293e-15
+alter @m3[as] = 1.01293e-15
+alter @m4[w] = 3.1654062e-08
+alter @m4[ad] = 1.01293e-15
+alter @m4[as] = 1.01293e-15
+alter @m5[w] = 3.1654062e-08
+alter @m5[ad] = 1.01293e-15
+alter @m5[as] = 1.01293e-15
+alter @m6[w] = 4.6648895e-08
+alter @m6[ad] = 1.4927646e-15
+alter @m6[as] = 1.4927646e-15
+alter Vdd_src = 0.9714817
+alter Va = 0
+alter Vb = 0
+option temp = -37.539367
+op
+print v(out) v(n1) v(x) i(vdd_src) i(va) i(vb)
+altermod @nmos[vth0]=0.43745504
+altermod @nmos[toxe]=1.0334748e-09
+altermod @nmos[ndep]=7.5571543e+18
+altermod @nmos[u0]=0.030622336
+altermod @nmos[xj]=4.6114221e-09
+altermod @pmos[vth0]=-0.4428331
+altermod @pmos[toxe]=1.060752e-09
+altermod @pmos[ndep]=5.8663437e+18
+altermod @pmos[u0]=0.0060668518
+altermod @pmos[xj]=4.5528648e-09
+alter @m1[w] = 4.6648895e-08
+alter @m1[ad] = 1.4927646e-15
+alter @m1[as] = 1.4927646e-15
+alter @m2[w] = 4.6648895e-08
+alter @m2[ad] = 1.4927646e-15
+alter @m2[as] = 1.4927646e-15
+alter @m3[w] = 3.1654062e-08
+alter @m3[ad] = 1.01293e-15
+alter @m3[as] = 1.01293e-15
+alter @m4[w] = 3.1654062e-08
+alter @m4[ad] = 1.01293e-15
+alter @m4[as] = 1.01293e-15
+alter @m5[w] = 3.1654062e-08
+alter @m5[ad] = 1.01293e-15
+alter @m5[as] = 1.01293e-15
+alter @m6[w] = 4.6648895e-08
+alter @m6[ad] = 1.4927646e-15
+alter @m6[as] = 1.4927646e-15
+alter Vdd_src = 0.9714817
+alter Va = 0
+alter Vb = 0.9714817
+option temp = -37.539367
+op
+print v(out) v(n1) v(x) i(vdd_src) i(va) i(vb)
+altermod @nmos[vth0]=0.43745504
+altermod @nmos[toxe]=1.0334748e-09
+altermod @nmos[ndep]=7.5571543e+18
+altermod @nmos[u0]=0.030622336
+altermod @nmos[xj]=4.6114221e-09
+altermod @pmos[vth0]=-0.4428331
+altermod @pmos[toxe]=1.060752e-09
+altermod @pmos[ndep]=5.8663437e+18
+altermod @pmos[u0]=0.0060668518
+altermod @pmos[xj]=4.5528648e-09
+alter @m1[w] = 4.6648895e-08
+alter @m1[ad] = 1.4927646e-15
+alter @m1[as] = 1.4927646e-15
+alter @m2[w] = 4.6648895e-08
+alter @m2[ad] = 1.4927646e-15
+alter @m2[as] = 1.4927646e-15
+alter @m3[w] = 3.1654062e-08
+alter @m3[ad] = 1.01293e-15
+alter @m3[as] = 1.01293e-15
+alter @m4[w] = 3.1654062e-08
+alter @m4[ad] = 1.01293e-15
+alter @m4[as] = 1.01293e-15
+alter @m5[w] = 3.1654062e-08
+alter @m5[ad] = 1.01293e-15
+alter @m5[as] = 1.01293e-15
+alter @m6[w] = 4.6648895e-08
+alter @m6[ad] = 1.4927646e-15
+alter @m6[as] = 1.4927646e-15
+alter Vdd_src = 0.9714817
+alter Va = 0.9714817
+alter Vb = 0
+option temp = -37.539367
+op
+print v(out) v(n1) v(x) i(vdd_src) i(va) i(vb)
+altermod @nmos[vth0]=0.43745504
+altermod @nmos[toxe]=1.0334748e-09
+altermod @nmos[ndep]=7.5571543e+18
+altermod @nmos[u0]=0.030622336
+altermod @nmos[xj]=4.6114221e-09
+altermod @pmos[vth0]=-0.4428331
+altermod @pmos[toxe]=1.060752e-09
+altermod @pmos[ndep]=5.8663437e+18
+altermod @pmos[u0]=0.0060668518
+altermod @pmos[xj]=4.5528648e-09
+alter @m1[w] = 4.6648895e-08
+alter @m1[ad] = 1.4927646e-15
+alter @m1[as] = 1.4927646e-15
+alter @m2[w] = 4.6648895e-08
+alter @m2[ad] = 1.4927646e-15
+alter @m2[as] = 1.4927646e-15
+alter @m3[w] = 3.1654062e-08
+alter @m3[ad] = 1.01293e-15
+alter @m3[as] = 1.01293e-15
+alter @m4[w] = 3.1654062e-08
+alter @m4[ad] = 1.01293e-15
+alter @m4[as] = 1.01293e-15
+alter @m5[w] = 3.1654062e-08
+alter @m5[ad] = 1.01293e-15
+alter @m5[as] = 1.01293e-15
+alter @m6[w] = 4.6648895e-08
+alter @m6[ad] = 1.4927646e-15
+alter @m6[as] = 1.4927646e-15
+alter Vdd_src = 0.9714817
+alter Va = 0.9714817
+alter Vb = 0.9714817
+option temp = -37.539367
+op
+print v(out) v(n1) v(x) i(vdd_src) i(va) i(vb)
+.endc
+.end
